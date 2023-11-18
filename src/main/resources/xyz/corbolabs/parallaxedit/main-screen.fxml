@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.corbolabs.parallaxedit.MainController">
+   <children>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="10.0" layoutY="50.0" prefHeight="488.0" prefWidth="800.0">
+        <items>
+          <AnchorPane maxWidth="152.0" minHeight="0.0" minWidth="0.0" prefHeight="488.0" prefWidth="152.0">
+               <children>
+                  <SplitPane dividerPositions="0.22782258064516134" orientation="VERTICAL" prefHeight="488.0" prefWidth="152.0">
+                    <items>
+                      <AnchorPane maxHeight="30.0" minHeight="30.0" minWidth="0.0" prefHeight="30.0" prefWidth="152.0">
+                           <children>
+                              <ChoiceBox fx:id="layers_choicebox" prefHeight="30.0" prefWidth="152.0" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane maxHeight="458.0" minHeight="0.0" minWidth="0.0" prefHeight="458.0" prefWidth="152.0">
+                           <children>
+                              <SplitPane dividerPositions="0.5" maxHeight="458.0" minHeight="458.0" orientation="VERTICAL" prefHeight="458.0" prefWidth="152.0">
+                                <items>
+                                  <AnchorPane maxHeight="229.0" minHeight="229.0" minWidth="0.0" prefHeight="229.0" prefWidth="152.0">
+                                       <children>
+                                          <ListView fx:id="stars_listview" layoutY="20.0" maxHeight="209.0" prefHeight="209.0" prefWidth="152.0" />
+                                          <Label layoutX="10.0" layoutY="2.0" text="Stars:" />
+                                       </children>
+                                    </AnchorPane>
+                                  <AnchorPane maxHeight="229.0" minHeight="229.0" minWidth="0.0" prefHeight="229.0" prefWidth="150.0">
+                                       <children>
+                                          <ListView fx:id="starsil_listview" layoutY="20.0" maxHeight="199.0" prefHeight="199.0" prefWidth="152.0" />
+                                          <Label layoutX="10.0" layoutY="2.0" text="Stars in Layer:" />
+                                       </children>
+                                    </AnchorPane>
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane fx:id="background_preview" minHeight="0.0" minWidth="0.0" prefHeight="488.0" prefWidth="648.0" style="-fx-background-color: #000;">
+               <children>
+                  <Label fx:id="debug_label" layoutX="292.0" layoutY="98.0" text="Label" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <Button fx:id="close_buton" layoutX="116.0" layoutY="14.0" mnemonicParsing="false" text="Close" />
+      <Button fx:id="save_button" layoutX="65.0" layoutY="14.0" mnemonicParsing="false" text="Save" />
+      <Button fx:id="open_button" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#onOpenButtonClick" text="Open" />
+      <Button fx:id="sd_button" layoutX="687.0" layoutY="14.0" mnemonicParsing="false" text="SD" />
+      <Button fx:id="hd2_button" layoutX="728.0" layoutY="14.0" mnemonicParsing="false" text="HD2" />
+      <Button fx:id="hd_button" layoutX="777.0" layoutY="14.0" mnemonicParsing="false" text="HD" />
+      <Label layoutX="633.0" layoutY="18.0" text="Preview:" />
+   </children>
+</Pane>
