@@ -6,6 +6,9 @@
     import javafx.scene.control.ChoiceBox
     import javafx.scene.control.Label
     import javafx.scene.control.ListView
+    import javafx.scene.image.Image
+    import javafx.scene.image.ImageView
+    import javafx.scene.layout.AnchorPane
     import javafx.stage.FileChooser
     import java.io.DataInputStream
     import java.io.FileInputStream
@@ -17,6 +20,7 @@
         val layers = Layers()
         var imgNumLay = mutableListOf<Int>()
         var starsList = mutableListOf<String>()
+        var starsListRaw = mutableListOf<String>()
 
 
         @FXML
@@ -31,6 +35,16 @@
         private lateinit var close_button: Button
         @FXML
         private lateinit var save_button: Button
+        @FXML
+        private lateinit var open_button_dds: Button
+        @FXML
+        private lateinit var sd_button: Button
+        @FXML
+        private lateinit var hd_button: Button
+        @FXML
+        private lateinit var hd2_button: Button
+        @FXML
+        private lateinit var background_preview: AnchorPane
 
         @FXML
         private fun onOpenButtonClick() {
@@ -39,13 +53,13 @@
             val fileChooser = FileChooser()
 
             // Filter
-            val spkFilter = FileChooser.ExtensionFilter("SPK Format", "*.spk")
+            val spkFilter = FileChooser.ExtensionFilter(StringsEN.spkFilterName, StringsEN.spkFilterSymbol)
             fileChooser.extensionFilters.add(spkFilter)
 
             // TODO Preferences should try to remember last opened dir here
 
             // Title
-            fileChooser.title = "Choose SC: Remastered *.JSON File"
+            fileChooser.title = StringsEN.stageTitleCF
 
             val selectedFile = fileChooser.showOpenDialog(null)
 
@@ -58,7 +72,7 @@
                     val inputStream = DataInputStream(FileInputStream(selectedFile))
 
                     // Resetting the scene title to the opened file + dir
-                    MainApplication.primaryStage.title = "SC: Remastered Parallax Editor -- (${selectedFile.absoluteFile})"
+                    MainApplication.primaryStage.title = StringsEN.stageTitleWF + "(${selectedFile.absoluteFile})"
 
                     // Now we start parsing the file/inputStream
                     // First int is number of layers in the spk
@@ -103,6 +117,24 @@
 
                         // DEBUG
                         System.out.println("Layer height: " + layers.layHeight)
+
+                        // Enable rest of the UI and determine SD, HD or HD2
+                        save_button.isDisable = false
+                        open_button_dds.isDisable = false
+
+                        // Case SD
+                        if (layers.layHeight.toInt() == 488){
+                            sd_button.isDisable = false
+                        }
+                        // Case HD
+                        if (layers.layHeight.toInt() == 976){
+                            hd_button.isDisable = false
+                        }
+                        // Case HD2
+                        if (layers.layHeight.toInt() == 1952){
+                            hd2_button.isDisable = false
+                        }
+
                     }
 
                     if (layers_choicebox.items.isNotEmpty()){
@@ -114,6 +146,8 @@
 
                     for (i in 0..layNum){
                         for (j in 0..imgNumLay[i]){
+
+                            var indexStar = 0;
 
                             // Layer X Position
                             inputStream.readFully(Constants.bufferShort)
@@ -138,6 +172,7 @@
                             // Star Height
                             inputStream.readFully(Constants.bufferShort)
                             var stars6 = ByteBuffer.wrap(Constants.bufferShort).order(ByteOrder.LITTLE_ENDIAN).getShort()
+                            starsListRaw.add("$i,$j,$stars1,$stars2,$stars3,$stars4,$stars5,$stars6;")
 
                             stars_listview.items.add("Layer: " + i +
                                     ", Star #: " + j +
@@ -173,7 +208,9 @@
                     debug_label.text = layNum.toString()
                     inputStream.close()
                 } catch (e: Exception){
-                    debug_label.text = "Something Failed..."
+                    System.out.println(starsListRaw)
+
+                    debug_label.text = StringsEN.genErr
                 }
             }
 
@@ -189,6 +226,43 @@
 
             }
 
+        }
+
+        @FXML
+        private fun onOpenButtonDDSClick() {
+
+            // Setting up FileChooser, Init, filter, icon, preferences, title, whatnot
+            val pngChooser = FileChooser()
+
+            // Filter
+            val pngFilter = FileChooser.ExtensionFilter(StringsEN.pngFilterName, StringsEN.pngFilterSymbol)
+            pngChooser.extensionFilters.add(pngFilter)
+
+            // TODO Preferences should try to remember last opened dir here
+
+            // Title
+            pngChooser.title = StringsEN.stageTitleCFPNG
+
+            val selectedFile = pngChooser.showOpenDialog(null)
+
+            // Actual opening starts here
+            if (selectedFile != null) {
+                try {
+
+                    // init inputStream, shove the file into a stream for parsing
+                    val image = Image(selectedFile.toURI().toString())
+                    val imageView = ImageView(image)
+                    imageView.fitWidth = background_preview.width
+                    imageView.fitHeight = background_preview.height
+                    background_preview.children.add(imageView)
+
+                } catch (e: Exception){
+
+                    System.out.println(starsListRaw)
+                    debug_label.text = StringsEN.genErr
+
+                }
+            }
         }
 
         @FXML

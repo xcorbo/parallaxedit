@@ -52,12 +52,13 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <Button fx:id="close_buton" layoutX="116.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCloseButtonClick" text="Close" />
-      <Button fx:id="save_button" layoutX="65.0" layoutY="14.0" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Save" />
-      <Button fx:id="open_button" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#onOpenButtonClick" text="Open" />
-      <Button fx:id="sd_button" layoutX="687.0" layoutY="14.0" mnemonicParsing="false" text="SD" />
-      <Button fx:id="hd2_button" layoutX="728.0" layoutY="14.0" mnemonicParsing="false" text="HD2" />
-      <Button fx:id="hd_button" layoutX="777.0" layoutY="14.0" mnemonicParsing="false" text="HD" />
+      <Button fx:id="close_buton" layoutX="222.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCloseButtonClick" text="Close" />
+      <Button fx:id="save_button" disable="true" layoutX="171.0" layoutY="14.0" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Save" />
+      <Button fx:id="open_button" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#onOpenButtonClick" text="Open SPK" />
+      <Button fx:id="sd_button" disable="true" layoutX="687.0" layoutY="14.0" mnemonicParsing="false" text="SD" />
+      <Button fx:id="hd_button" disable="true" layoutX="728.0" layoutY="14.0" mnemonicParsing="false" text="HD" />
       <Label layoutX="633.0" layoutY="18.0" text="Preview:" />
+      <Button fx:id="open_button_dds" disable="true" layoutX="89.0" layoutY="14.0" mnemonicParsing="false" onAction="#onOpenButtonDDSClick" text="Open DDS" />
+      <Button fx:id="hd2_button" disable="true" layoutX="771.0" layoutY="14.0" mnemonicParsing="false" text="HD2" />
    </children>
 </Pane>

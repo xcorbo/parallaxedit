@@ -22,12 +22,12 @@ class MainApplication : Application() {
         val scene = Scene(fxmlLoader.load(), 820.0, 550.0)
 
         // Setting up init variables for scene/window
-        stage.title = "SC: Remastered Parallax Editor -- (none selected)"
+        stage.title = StringsEN.stageTitleNF
         stage.scene = scene
 
         // Icon
-        val iconPath = "resources\\icon.png"
-        val iconStream = ClassLoader.getSystemResourceAsStream(iconPath)
+        val iconPath = "icon.png"
+        val iconStream = javaClass.classLoader.getResourceAsStream(iconPath)
         if (iconStream != null){
             val iconImage = Image(iconStream)
             primaryStage.icons.add(iconImage)
