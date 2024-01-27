@@ -12,7 +12,6 @@
     import java.lang.Exception
     import java.nio.ByteBuffer
     import java.nio.ByteOrder
-    import kotlin.system.exitProcess
 
     class MainController {
         val layers = Layers()
@@ -35,16 +34,33 @@
 
         @FXML
         private fun onOpenButtonClick() {
+
+            // Setting up FileChooser, Init, filter, icon, preferences, title, whatnot
             val fileChooser = FileChooser()
+
+            // Filter
+            val spkFilter = FileChooser.ExtensionFilter("SPK Format", "*.spk")
+            fileChooser.extensionFilters.add(spkFilter)
+
+            // TODO Preferences should try to remember last opened dir here
+
+            // Title
+            fileChooser.title = "Choose SC: Remastered *.JSON File"
+
             val selectedFile = fileChooser.showOpenDialog(null)
+
             var stars: Stars
 
-            // LOLAOWJASJDFSDKFHSDFHSLDKFH
-
+            // Actual opening starts here
             if (selectedFile != null){
                 try{
+                    // init inputStream, shove the file into a stream for parsing
                     val inputStream = DataInputStream(FileInputStream(selectedFile))
 
+                    // Resetting the scene title to the opened file + dir
+                    MainApplication.primaryStage.title = "SC: Remastered Parallax Editor -- (${selectedFile.absoluteFile})"
+
+                    // Now we start parsing the file/inputStream
                     // First int is number of layers in the spk
                     inputStream.readFully(Constants.bufferInt)
                     val layNum = ByteBuffer.wrap(Constants.bufferInt).order(ByteOrder.LITTLE_ENDIAN).getInt()
@@ -53,10 +69,15 @@
                     inputStream.readFully(Constants.bufferInt)
                     val starOffset = ByteBuffer.wrap(Constants.bufferInt).order(ByteOrder.LITTLE_ENDIAN).getInt()
 
+                    // DEBUG
                     System.out.println(layNum)
                     System.out.println(starOffset)
 
+                    // After two ints are read, we read the header that give us the number of stars, number of images in layer and layer size
+                    // As a note SD = 648 x 488, HD = 1296 x 976, HD2 = 2592 x 1952
                     for (i in 0 until layNum ){
+
+                        // DEBUG
                         System.out.println("Layer: " + i)
 
                         // First int of header is number of stars in this layer
@@ -64,17 +85,23 @@
                         var layers = Layers(numLay =  ByteBuffer.wrap(Constants.bufferInt).order(ByteOrder.LITTLE_ENDIAN).getInt())
                         imgNumLay.add(i, layers.numLay)
                         layers_choicebox.items.add(i, "Layer $i - " + imgNumLay[i])
+
+                        // DEBUG
                         System.out.println("Images in layer: " + layers.numLay)
                         System.out.println("LOL: " + imgNumLay[i])
 
                         // First short is the layer width
                         inputStream.readFully(Constants.bufferShort)
                         layers = Layers(layWidth =  ByteBuffer.wrap(Constants.bufferShort).order(ByteOrder.LITTLE_ENDIAN).getShort())
+
+                        // DEBUG
                         System.out.println("Layer width: " + layers.layWidth)
 
                         // Second short is the layer height
                         inputStream.readFully(Constants.bufferShort)
                         layers = Layers(layHeight =  ByteBuffer.wrap(Constants.bufferShort).order(ByteOrder.LITTLE_ENDIAN).getShort())
+
+                        // DEBUG
                         System.out.println("Layer height: " + layers.layHeight)
                     }
 
@@ -82,6 +109,7 @@
                         layers_choicebox.selectionModel.select(0)
                     }
 
+                    // DEBUG
                     System.out.println("STAR INFORMATION HERE")
 
                     for (i in 0..layNum){
@@ -121,6 +149,7 @@
                                     ", height: " + stars6 + ")"
                             )
 
+                            // DEBUG
                             System.out.println( "Layer: " + i +
                                                 ", Star #: " + j +
                                                 "(x: " + stars1 +
