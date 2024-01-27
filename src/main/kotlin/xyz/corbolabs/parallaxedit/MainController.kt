@@ -11,17 +11,18 @@
     import javafx.scene.layout.AnchorPane
     import javafx.stage.FileChooser
     import java.io.DataInputStream
+    import java.io.File
     import java.io.FileInputStream
     import java.lang.Exception
     import java.nio.ByteBuffer
     import java.nio.ByteOrder
+    import java.util.prefs.Preferences
 
     class MainController {
         val layers = Layers()
         var imgNumLay = mutableListOf<Int>()
         var starsList = mutableListOf<String>()
         var starsListRaw = mutableListOf<String>()
-
 
         @FXML
         private lateinit var debug_label: Label
@@ -46,6 +47,14 @@
         @FXML
         private lateinit var background_preview: AnchorPane
 
+        private lateinit var resolutionMode: ResolutionMode
+        private val preferences = Preferences.userNodeForPackage(MainController::class.java)
+
+        @FXML
+        private fun initialize() {
+            resolutionMode = ResolutionMode(save_button, open_button_dds, sd_button, hd_button, hd2_button)
+        }
+
         @FXML
         private fun onOpenButtonClick() {
 
@@ -56,7 +65,12 @@
             val spkFilter = FileChooser.ExtensionFilter(StringsEN.spkFilterName, StringsEN.spkFilterSymbol)
             fileChooser.extensionFilters.add(spkFilter)
 
-            // TODO Preferences should try to remember last opened dir here
+            // Last directory
+            val storedDirectory = preferences.get("lastDirectory", null)
+            val initialDirectory = storedDirectory?.let { File(it) }
+            if (initialDirectory != null && initialDirectory.isDirectory) {
+                fileChooser.initialDirectory = initialDirectory
+            }
 
             // Title
             fileChooser.title = StringsEN.stageTitleCF
@@ -68,8 +82,9 @@
             // Actual opening starts here
             if (selectedFile != null){
                 try{
-                    // init inputStream, shove the file into a stream for parsing
+                    // init inputStream, shove the file into a stream for parsing + last dir preferences
                     val inputStream = DataInputStream(FileInputStream(selectedFile))
+                    preferences.put("lastDirectory", selectedFile.parent)
 
                     // Resetting the scene title to the opened file + dir
                     MainApplication.primaryStage.title = StringsEN.stageTitleWF + "(${selectedFile.absoluteFile})"
@@ -83,66 +98,31 @@
                     inputStream.readFully(Constants.bufferInt)
                     val starOffset = ByteBuffer.wrap(Constants.bufferInt).order(ByteOrder.LITTLE_ENDIAN).getInt()
 
-                    // DEBUG
-                    System.out.println(layNum)
-                    System.out.println(starOffset)
-
                     // After two ints are read, we read the header that give us the number of stars, number of images in layer and layer size
                     // As a note SD = 648 x 488, HD = 1296 x 976, HD2 = 2592 x 1952
                     for (i in 0 until layNum ){
-
-                        // DEBUG
-                        System.out.println("Layer: " + i)
 
                         // First int of header is number of stars in this layer
                         inputStream.readFully(Constants.bufferInt)
                         var layers = Layers(numLay =  ByteBuffer.wrap(Constants.bufferInt).order(ByteOrder.LITTLE_ENDIAN).getInt())
                         imgNumLay.add(i, layers.numLay)
-                        layers_choicebox.items.add(i, "Layer $i - " + imgNumLay[i])
-
-                        // DEBUG
-                        System.out.println("Images in layer: " + layers.numLay)
-                        System.out.println("LOL: " + imgNumLay[i])
+                        layers_choicebox.items.add(i, StringsEN.layerSymbolCombobox + i + " - " + imgNumLay[i])
 
                         // First short is the layer width
                         inputStream.readFully(Constants.bufferShort)
                         layers = Layers(layWidth =  ByteBuffer.wrap(Constants.bufferShort).order(ByteOrder.LITTLE_ENDIAN).getShort())
 
-                        // DEBUG
-                        System.out.println("Layer width: " + layers.layWidth)
-
                         // Second short is the layer height
                         inputStream.readFully(Constants.bufferShort)
                         layers = Layers(layHeight =  ByteBuffer.wrap(Constants.bufferShort).order(ByteOrder.LITTLE_ENDIAN).getShort())
 
-                        // DEBUG
-                        System.out.println("Layer height: " + layers.layHeight)
-
-                        // Enable rest of the UI and determine SD, HD or HD2
-                        save_button.isDisable = false
-                        open_button_dds.isDisable = false
-
-                        // Case SD
-                        if (layers.layHeight.toInt() == 488){
-                            sd_button.isDisable = false
-                        }
-                        // Case HD
-                        if (layers.layHeight.toInt() == 976){
-                            hd_button.isDisable = false
-                        }
-                        // Case HD2
-                        if (layers.layHeight.toInt() == 1952){
-                            hd2_button.isDisable = false
-                        }
+                        resolutionMode.parse(layers.layHeight.toInt())
 
                     }
 
                     if (layers_choicebox.items.isNotEmpty()){
                         layers_choicebox.selectionModel.select(0)
                     }
-
-                    // DEBUG
-                    System.out.println("STAR INFORMATION HERE")
 
                     for (i in 0..layNum){
                         for (j in 0..imgNumLay[i]){
@@ -174,49 +154,42 @@
                             var stars6 = ByteBuffer.wrap(Constants.bufferShort).order(ByteOrder.LITTLE_ENDIAN).getShort()
                             starsListRaw.add("$i,$j,$stars1,$stars2,$stars3,$stars4,$stars5,$stars6;")
 
-                            stars_listview.items.add("Layer: " + i +
-                                    ", Star #: " + j +
-                                    "(x: " + stars1 +
-                                    ", y: " + stars2 +
-                                    ", dds x: " + stars3 +
-                                    ", dds y: " + stars4 +
-                                    ", width: " + stars5 +
-                                    ", height: " + stars6 + ")"
+                            stars_listview.items.add(
+                                    "Layer: "       + i +
+                                    ", Star #: "    + j +
+                                    "(x: "          + stars1 +
+                                    ", y: "         + stars2 +
+                                    ", dds x: "     + stars3 +
+                                    ", dds y: "     + stars4 +
+                                    ", width: "     + stars5 +
+                                    ", height: "    + stars6 +
+                                    ")"
                             )
 
-                            // DEBUG
-                            System.out.println( "Layer: " + i +
-                                                ", Star #: " + j +
-                                                "(x: " + stars1 +
-                                                ", y: " + stars2 +
-                                                ", dds x: " + stars3 +
-                                                ", dds y: " + stars4 +
-                                                ", width: " + stars5 +
-                                                ", height: " + stars6 + ")"
+                            starsList.add(
+                                    "Layer: "       + i +
+                                    ", Star #: "    + j +
+                                    "(x: "          + stars1 +
+                                    ", y: "         + stars2 +
+                                    ", dds x: "     + stars3 +
+                                    ", dds y: "     + stars4 +
+                                    ", width: "     + stars5 +
+                                    ", height: "    + stars6 +
+                                    ")"
                             )
-                            starsList.add("Layer: " + i +
-                                    ", Star #: " + j +
-                                    "(x: " + stars1 +
-                                    ", y: " + stars2 +
-                                    ", dds x: " + stars3 +
-                                    ", dds y: " + stars4 +
-                                    ", width: " + stars5 +
-                                    ", height: " + stars6 + ")")
                         }
                     }
 
                     debug_label.text = layNum.toString()
                     inputStream.close()
                 } catch (e: Exception){
-                    System.out.println(starsListRaw)
-
                     debug_label.text = StringsEN.genErr
                 }
             }
 
             layers_choicebox.selectionModel.selectedIndexProperty().addListener() { _, _, newValue ->
                 val selectedItem = newValue.toInt()
-                System.out.println(selectedItem)
+                System.out.println(starsListRaw.toString())
                 starsil_listview.items.clear()
                 for(items in starsList){
                     if(items.contains("Layer: $selectedItem")){
