@@ -25,21 +25,21 @@ class ResolutionMode {
         this.hd2_button = hd2_button
     }
 
-    public fun parse(height: Int){
+    public fun parse(height: Int) {
         // Enable rest of the UI and determine SD, HD or HD2
         save_button.isDisable = false
         open_button_dds.isDisable = false
 
         // Case SD
-        if (height == 488){
+        if (height == 488) {
             sd_button.isDisable = false
         }
         // Case HD
-        if (height == 976){
+        if (height == 976) {
             hd_button.isDisable = false
         }
         // Case HD2
-        if (height == 1952){
+        if (height == 1952) {
             hd2_button.isDisable = false
         }
     }

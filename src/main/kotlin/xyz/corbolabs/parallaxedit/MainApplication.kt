@@ -28,7 +28,7 @@ class MainApplication : Application() {
         // Icon
         val iconPath = "icon.png"
         val iconStream = javaClass.classLoader.getResourceAsStream(iconPath)
-        if (iconStream != null){
+        if (iconStream != null) {
             val iconImage = Image(iconStream)
             primaryStage.icons.add(iconImage)
         } else {
