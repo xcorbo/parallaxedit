@@ -1,6 +1,5 @@
 package xyz.corbolabs.parallaxedit
 
-import javafx.fxml.FXML
 import javafx.scene.control.Button
 
 class ResolutionMode {

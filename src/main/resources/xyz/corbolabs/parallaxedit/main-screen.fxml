@@ -49,6 +49,7 @@
           <AnchorPane fx:id="background_preview" minHeight="0.0" minWidth="0.0" prefHeight="488.0" prefWidth="648.0" style="-fx-background-color: #000;">
                <children>
                   <ImageView fx:id="stars" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="debug_label" layoutX="292.0" layoutY="205.0" text="Label" />
                </children>
             </AnchorPane>
         </items>
