@@ -93,7 +93,6 @@ fun openSPK(
                 )
 
                 resolutionMode.parse(layers.layHeight.toInt())
-
             }
 
             if (layers_choicebox.items.isNotEmpty()) {
@@ -138,6 +137,7 @@ fun openSPK(
 
                 // Set the selection from the combobox to 0 to call the populate function for stars in layer 0, by default
                 refreshSelection(0, starsil_listview, starsListRaw)
+
             }
 
             debug_label.text = layNum.toString()
@@ -151,6 +151,12 @@ fun openSPK(
     layers_choicebox.selectionModel.selectedIndexProperty().addListener() { _, _, newValue ->
         val selectedItem = newValue.toInt()
         refreshSelection(selectedItem, starsil_listview, starsListRaw)
+
+        if(selectedItem != null){
+            refreshStarsViewport(background_preview, starsListRaw, image, selectedItem)
+        } else {
+            refreshStarsViewport(background_preview, starsListRaw, image, 0)
+        }
 
     }
 

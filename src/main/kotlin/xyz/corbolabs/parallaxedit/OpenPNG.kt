@@ -1,5 +1,6 @@
 package xyz.corbolabs.parallaxedit
 
+import javafx.geometry.Rectangle2D
 import javafx.scene.control.Label
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -7,7 +8,9 @@ import javafx.scene.layout.AnchorPane
 import javafx.stage.FileChooser
 import java.lang.Exception
 
-fun openPNG(background_preview: AnchorPane, debug_label: Label) {
+lateinit var image: Image
+
+fun openPNG(background_preview: AnchorPane, debug_label: Label, starsListRaw: MutableList<String>) {
 
     // Setting up FileChooser, Init, filter, icon, preferences, title, whatnot
     val pngChooser = FileChooser()
@@ -28,15 +31,15 @@ fun openPNG(background_preview: AnchorPane, debug_label: Label) {
         try {
 
             // init inputStream, shove the file into a stream for parsing
-            val image = Image(selectedFile.toURI().toString())
-            val imageView = ImageView(image)
-            imageView.fitWidth = background_preview.width
-            imageView.fitHeight = background_preview.height
-            background_preview.children.add(imageView)
+            image = Image(selectedFile.toURI().toString())
+
+            refreshStarsViewport(background_preview, starsListRaw, image, 0)
+
+            //debug_label.text = starsListRaw.toString()
 
         } catch (e: Exception) {
 
-            debug_label.text = StringsEN.genErr
+            debug_label.text = starsListRaw.toString()
 
         }
     }

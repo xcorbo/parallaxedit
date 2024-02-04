@@ -76,7 +76,7 @@ class MainController {
 
     @FXML
     private fun onOpenButtonDDSClick() {
-        openPNG(background_preview, debug_label)
+        openPNG(background_preview, debug_label, starsListRaw)
     }
 
     @FXML

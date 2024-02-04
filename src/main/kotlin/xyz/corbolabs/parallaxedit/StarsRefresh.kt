@@ -1,6 +1,7 @@
 package xyz.corbolabs.parallaxedit
 
 import javafx.scene.control.ListView
+import javafx.scene.layout.AnchorPane
 
 fun refreshSelection(selectedItem: Int, starsil_listview: ListView<String>, starsListRaw: MutableList<String>) {
 
