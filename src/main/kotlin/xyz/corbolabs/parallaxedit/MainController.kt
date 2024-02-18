@@ -26,6 +26,9 @@ class MainController {
     private lateinit var starsil_listview: ListView<String>
 
     @FXML
+    private lateinit var open_button: Button
+
+    @FXML
     private lateinit var save_button: Button
 
     @FXML
@@ -46,17 +49,37 @@ class MainController {
     @FXML
     lateinit var stars_shinning: ImageView
 
+    @FXML
+    lateinit var lp_0: Button
+
+    @FXML
+    lateinit var lp_1: Button
+
+    @FXML
+    lateinit var lp_2: Button
+
+    @FXML
+    lateinit var lp_3: Button
+
+    @FXML
+    lateinit var lp_4: Button
+    @FXML
+    lateinit var lp_all: Button
+
     // Settings Variables
     private lateinit var resolutionMode: ResolutionMode
     private val preferences = Preferences.userNodeForPackage(MainController::class.java)
+    private lateinit var loadedJSON: String
 
     @FXML
     private fun initialize() {
-        resolutionMode = ResolutionMode(save_button,
-                                        open_button_dds,
-                                        sd_button,
-                                        hd_button,
-                                        hd2_button)
+        resolutionMode = ResolutionMode(
+            save_button,
+            open_button_dds,
+            sd_button,
+            hd_button,
+            hd2_button
+        )
         stars_shinning = ImageView()
     }
 
@@ -70,13 +93,50 @@ class MainController {
             background_preview,
             stars_shinning,
             resolutionMode,
-            preferences
+            preferences,
+            open_button,
+            open_button_dds
         )
     }
 
     @FXML
     private fun onOpenButtonDDSClick() {
-        openPNG(background_preview, debug_label, starsListRaw)
+        OpenJSON(background_preview, debug_label, preferences, lp_0, lp_1, lp_2, lp_3, lp_4, lp_all, open_button_dds)
+    }
+
+    @FXML
+    private fun onLP0ButtonClick() {
+        openPNG(background_preview, debug_label, starsListRaw, 0)
+        refreshSelection(0, starsil_listview, starsListRaw)
+    }
+
+    @FXML
+    private fun onLP1ButtonClick() {
+        openPNG(background_preview, debug_label, starsListRaw, 1)
+        refreshSelection(1, starsil_listview, starsListRaw)
+    }
+
+    @FXML
+    private fun onLP2ButtonClick() {
+        openPNG(background_preview, debug_label, starsListRaw, 2)
+        refreshSelection(2, starsil_listview, starsListRaw)
+    }
+
+    @FXML
+    private fun onLP3ButtonClick() {
+        openPNG(background_preview, debug_label, starsListRaw, 3)
+        refreshSelection(3, starsil_listview, starsListRaw)
+    }
+
+    @FXML
+    private fun onLP4ButtonClick() {
+        openPNG(background_preview, debug_label, starsListRaw, 4)
+        refreshSelection(3, starsil_listview, starsListRaw)
+    }
+
+    @FXML
+    private fun onLPAllButtonClick() {
+        viewAllStars(background_preview, starsListRaw)
     }
 
     @FXML

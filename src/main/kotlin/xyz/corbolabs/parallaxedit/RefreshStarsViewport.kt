@@ -5,16 +5,22 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
 
-fun refreshStarsViewport(background_preview: AnchorPane, starsListRaw: MutableList<String>, image: Image, selectionValue: Int){
+fun refreshStarsViewport(
+    background_preview: AnchorPane,
+    starsListRaw: MutableList<String>,
+    image: Image,
+    selectionValue: Int
+) {
 
     val imageViews = mutableListOf<ImageView>()
 
-    for (items in starsListRaw){
+    for (items in starsListRaw) {
         val values = items.split(",")
 
-        if(values[0] == selectionValue.toString()){
+        if (values[0] == selectionValue.toString()) {
             val imageView = ImageView(image)
-            val viewportRect = Rectangle2D(values[4].toDouble(), values[5].toDouble(), values[6].toDouble(), values[7].toDouble())
+            val viewportRect =
+                Rectangle2D(values[4].toDouble(), values[5].toDouble(), values[6].toDouble(), values[7].toDouble())
             imageView.viewport = viewportRect
 
             imageView.fitWidth = values[6].toDouble()

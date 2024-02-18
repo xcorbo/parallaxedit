@@ -1,6 +1,8 @@
 // FileUtils.kt
 package xyz.corbolabs.parallaxedit
 
+import javafx.fxml.FXML
+import javafx.scene.control.Button
 import javafx.scene.control.ChoiceBox
 import javafx.scene.control.Label
 import javafx.scene.control.ListView
@@ -19,6 +21,7 @@ var imgNumLay = mutableListOf<Int>()
 var starsListRaw = mutableListOf<String>()
 private var layNum = 0
 
+
 fun openSPK(
     debug_label: Label,
     layers_choicebox: ChoiceBox<String>,
@@ -27,7 +30,9 @@ fun openSPK(
     background_preview: AnchorPane,
     stars_shinning: ImageView,
     resolutionMode: ResolutionMode,
-    preferences: Preferences
+    preferences: Preferences,
+    open_button: Button,
+    open_button_dds: Button
 ) {
     // Setting up FileChooser, Init, filter, icon, preferences, title, whatnot
     val fileChooser = FileChooser()
@@ -137,6 +142,8 @@ fun openSPK(
 
                 // Set the selection from the combobox to 0 to call the populate function for stars in layer 0, by default
                 refreshSelection(0, starsil_listview, starsListRaw)
+                open_button.isDisable = true
+                open_button_dds.isDisable = false
 
             }
 
@@ -154,8 +161,12 @@ fun openSPK(
 
         if(selectedItem != null){
             refreshStarsViewport(background_preview, starsListRaw, image, selectedItem)
+            openPNG(background_preview, debug_label, starsListRaw, selectedItem)
+
         } else {
             refreshStarsViewport(background_preview, starsListRaw, image, 0)
+            openPNG(background_preview, debug_label, starsListRaw, 0)
+
         }
 
     }
