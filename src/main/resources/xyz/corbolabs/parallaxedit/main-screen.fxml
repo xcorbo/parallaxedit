@@ -9,17 +9,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.corbolabs.parallaxedit.MainController">
+<Pane maxHeight="550.0" maxWidth="820.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.corbolabs.parallaxedit.MainController">
    <children>
-      <SplitPane dividerPositions="0.1943887775551102" layoutX="10.0" layoutY="50.0" prefHeight="488.0" prefWidth="800.0">
+      <SplitPane dividerPositions="0.1943887775551102" layoutX="10.0" layoutY="50.0" maxHeight="488.0" prefHeight="488.0" prefWidth="800.0">
         <items>
-          <AnchorPane maxWidth="152.0" minHeight="0.0" minWidth="0.0" prefHeight="488.0" prefWidth="152.0">
+          <AnchorPane maxHeight="488.0" maxWidth="152.0" minHeight="0.0" minWidth="0.0" prefHeight="488.0" prefWidth="152.0">
                <children>
-                  <SplitPane dividerPositions="0.22782258064516134" maxHeight="1.7976931348623157E308" maxWidth="500.0" orientation="VERTICAL" prefHeight="488.0" prefWidth="152.0">
+                  <SplitPane dividerPositions="0.22782258064516134" maxHeight="488.0" maxWidth="500.0" orientation="VERTICAL" prefHeight="488.0" prefWidth="152.0">
                     <items>
                       <AnchorPane maxHeight="30.0" minHeight="30.0" minWidth="0.0" prefHeight="30.0" prefWidth="152.0">
                            <children>
-                              <ChoiceBox fx:id="layers_choicebox" prefHeight="30.0" prefWidth="152.0" />
+                              <ChoiceBox fx:id="layers_choicebox" maxHeight="30.0" prefHeight="30.0" prefWidth="152.0" />
                            </children>
                         </AnchorPane>
                       <AnchorPane maxHeight="458.0" minHeight="0.0" minWidth="0.0" prefHeight="458.0" prefWidth="152.0">
@@ -29,13 +29,13 @@
                                   <AnchorPane maxHeight="229.0" minHeight="229.0" minWidth="0.0" prefHeight="229.0" prefWidth="152.0">
                                        <children>
                                           <ListView fx:id="stars_listview" layoutY="20.0" maxHeight="209.0" prefHeight="209.0" prefWidth="152.0" />
-                                          <Label layoutX="10.0" layoutY="2.0" text="Stars:" />
+                                          <Label layoutX="10.0" layoutY="2.0" maxHeight="20.0" minHeight="15.0" prefHeight="17.0" prefWidth="29.0" text="Stars:" />
                                        </children>
                                     </AnchorPane>
                                   <AnchorPane maxHeight="229.0" minHeight="229.0" minWidth="0.0" prefHeight="229.0" prefWidth="150.0">
                                        <children>
                                           <ListView fx:id="starsil_listview" layoutY="20.0" maxHeight="199.0" prefHeight="199.0" prefWidth="152.0" />
-                                          <Label layoutX="10.0" layoutY="2.0" text="Stars in Layer:" />
+                                          <Label layoutX="10.0" layoutY="2.0" maxHeight="30.0" minHeight="15.0" prefHeight="18.0" prefWidth="73.0" text="Stars in Layer:" />
                                        </children>
                                     </AnchorPane>
                                 </items>
@@ -46,7 +46,7 @@
                   </SplitPane>
                </children>
             </AnchorPane>
-          <AnchorPane fx:id="background_preview" minHeight="0.0" minWidth="0.0" prefHeight="488.0" prefWidth="648.0" style="-fx-background-color: #000;" SplitPane.resizableWithParent="false">
+            <AnchorPane fx:id="background_preview" maxHeight="488.0" maxWidth="648.0" minHeight="488.0" minWidth="648.0" prefHeight="488.0" prefWidth="648.0" style="-fx-background-color: #000;" SplitPane.resizableWithParent="false">
                <children>
                   <ImageView fx:id="stars" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                   <Label fx:id="debug_label" layoutX="292.0" layoutY="205.0" text="Label" />

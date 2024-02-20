@@ -2,6 +2,7 @@ package xyz.corbolabs.parallaxedit
 
 import javafx.scene.control.Button
 import javafx.scene.control.Label
+import javafx.scene.control.ListView
 import javafx.scene.layout.AnchorPane
 import javafx.stage.FileChooser
 import java.io.File
@@ -22,7 +23,8 @@ fun OpenJSON(
     lp_3: Button,
     lp_4: Button,
     lp_all: Button,
-    open_button_dds: Button
+    open_button_dds: Button,
+    starsil_listview: ListView<String>
 ) {
 
     // Setting up FileChooser, Init, filter, icon, preferences, title, whatnot
@@ -54,7 +56,7 @@ fun OpenJSON(
 
             // set to layer 0 by default
             val selectedLayer = 0
-            openPNG(background_preview, debug_label, starsListRaw, selectedLayer)
+            openPNG(background_preview, debug_label, starsListRaw, selectedLayer, starsil_listview)
             lp_0.isDisable = false
             lp_1.isDisable = false
             lp_2.isDisable = false

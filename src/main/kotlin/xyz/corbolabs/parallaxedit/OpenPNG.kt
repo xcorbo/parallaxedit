@@ -1,13 +1,20 @@
 package xyz.corbolabs.parallaxedit
 
 import javafx.scene.control.Label
+import javafx.scene.control.ListView
 import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
 import java.lang.Exception
 
 lateinit var image: Image
 
-fun openPNG(background_preview: AnchorPane, debug_label: Label, starsListRaw: MutableList<String>, selectedLayer: Int) {
+fun openPNG(
+    background_preview: AnchorPane,
+    debug_label: Label,
+    starsListRaw: MutableList<String>,
+    selectedLayer: Int,
+    starsil_listview: ListView<String>
+) {
 
     // Actual opening starts here
     if (jsonObject != null) {
@@ -19,7 +26,7 @@ fun openPNG(background_preview: AnchorPane, debug_label: Label, starsListRaw: Mu
                 .getString("path")
             image = Image(layerToDisplay)
 
-            refreshStarsViewport(background_preview, starsListRaw, image, selectedLayer)
+            refreshStarsViewport(background_preview, starsListRaw, image, selectedLayer, starsil_listview)
 
         } catch (e: Exception) {
 

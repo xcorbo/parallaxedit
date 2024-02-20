@@ -8,7 +8,11 @@ import javafx.scene.control.Label
 import javafx.scene.control.ListView
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
+import java.io.DataOutputStream
+import java.io.FileOutputStream
+import java.nio.ByteBuffer
 import java.util.prefs.Preferences
+import kotlin.math.absoluteValue
 
 class MainController {
 
@@ -63,6 +67,7 @@ class MainController {
 
     @FXML
     lateinit var lp_4: Button
+
     @FXML
     lateinit var lp_all: Button
 
@@ -81,6 +86,7 @@ class MainController {
             hd2_button
         )
         stars_shinning = ImageView()
+
     }
 
     @FXML
@@ -101,37 +107,57 @@ class MainController {
 
     @FXML
     private fun onOpenButtonDDSClick() {
-        OpenJSON(background_preview, debug_label, preferences, lp_0, lp_1, lp_2, lp_3, lp_4, lp_all, open_button_dds)
+        OpenJSON(
+            background_preview,
+            debug_label,
+            preferences,
+            lp_0,
+            lp_1,
+            lp_2,
+            lp_3,
+            lp_4,
+            lp_all,
+            open_button_dds,
+            starsil_listview
+        )
     }
 
     @FXML
     private fun onLP0ButtonClick() {
-        openPNG(background_preview, debug_label, starsListRaw, 0)
+        openPNG(background_preview, debug_label, starsListRaw, 0, starsil_listview)
         refreshSelection(0, starsil_listview, starsListRaw)
+        layers_choicebox.selectionModel.select(0)
+
     }
 
     @FXML
     private fun onLP1ButtonClick() {
-        openPNG(background_preview, debug_label, starsListRaw, 1)
+        openPNG(background_preview, debug_label, starsListRaw, 1, starsil_listview)
         refreshSelection(1, starsil_listview, starsListRaw)
+        layers_choicebox.selectionModel.select(1)
+
     }
 
     @FXML
     private fun onLP2ButtonClick() {
-        openPNG(background_preview, debug_label, starsListRaw, 2)
+        openPNG(background_preview, debug_label, starsListRaw, 2, starsil_listview)
         refreshSelection(2, starsil_listview, starsListRaw)
+        layers_choicebox.selectionModel.select(2)
+
     }
 
     @FXML
     private fun onLP3ButtonClick() {
-        openPNG(background_preview, debug_label, starsListRaw, 3)
+        openPNG(background_preview, debug_label, starsListRaw, 3, starsil_listview)
         refreshSelection(3, starsil_listview, starsListRaw)
+        layers_choicebox.selectionModel.select(3)
     }
 
     @FXML
     private fun onLP4ButtonClick() {
-        openPNG(background_preview, debug_label, starsListRaw, 4)
-        refreshSelection(3, starsil_listview, starsListRaw)
+        openPNG(background_preview, debug_label, starsListRaw, 4, starsil_listview)
+        refreshSelection(4, starsil_listview, starsListRaw)
+        layers_choicebox.selectionModel.select(4)
     }
 
     @FXML
@@ -146,8 +172,83 @@ class MainController {
 
     @FXML
     private fun onSaveButtonClick() {
-        //TODO Saving...
+
+        // Auxiliary lists
+        val distinctLayers = mutableSetOf<Int>()
+        val layerItemCounts = mutableMapOf<Int, Int>()
+
+        // Iterate over the items and extract layer information
+        starsListRaw.forEach { item ->
+            val layer = item.split(",")[0].toInt()
+
+            // Let's get the number of layers...
+            val layerItemCount = layerItemCounts.getOrDefault(layer, 0) + 1
+            layerItemCounts[layer] = layerItemCount
+            distinctLayers.add(layer)
+        }
+
+        // Can we save? Can we pls?
+        val outputStream = DataOutputStream(FileOutputStream("C:\\Users\\Corbo\\Desktop\\star2.spk"))
+
+        try {
+
+            // First byte, layer number
+            outputStream.writeInt(Integer.reverseBytes(distinctLayers.size))
+
+            // Second byte, offset to first image (hardcoded to 48 for now which is the ammount if the spk has 5 layers
+            outputStream.writeInt(Integer.reverseBytes(48))
+
+            // Loop to get the header done, Images in layer, Layer width, Layer Height... for all layers
+            for (i in 0..distinctLayers.size - 1) {
+
+                layerItemCounts[i]?.let { Integer.reverseBytes(it) }?.let { outputStream.writeInt(it) }
+
+                if (!sd_button.isDisable) {
+                    val width = 648
+                    val height = 488
+                    outputStream.writeShort(reverseBytesShort(width.toShort()).toInt())
+                    outputStream.writeShort(reverseBytesShort(height.toShort()).toInt())
+                }
+                if (!hd_button.isDisable) {
+                    val width = 648 * 2
+                    val height = 488 * 2
+                    outputStream.writeShort(reverseBytesShort(width.toShort()).toInt())
+                    outputStream.writeShort(reverseBytesShort(height.toShort()).toInt())
+                }
+                if (!hd2_button.isDisable) {
+                    val width = 648 * 4
+                    val height = 488 * 4
+                    outputStream.writeShort(reverseBytesShort(width.toShort()).toInt())
+                    outputStream.writeShort(reverseBytesShort(height.toShort()).toInt())
+                }
+            }
+
+            // The one loop to merge them all, one loop to find them and in the darkness bind them
+            for (i in 0..distinctLayers.size - 1) {
+                for (j in 0..layerItemCounts.getOrDefault(i, 0)) {
+                    starsListRaw.forEach() { item ->
+                        val values = item.split(",")
+                        if (values[0].toInt() == i && values[1].toInt() == j) {
+                            outputStream.writeShort(reverseBytesShort(values[2].toShort()).toInt())
+                            outputStream.writeShort(reverseBytesShort(values[3].toShort()).toInt())
+
+                            outputStream.writeShort(reverseBytesShort(values[4].toShort()).toInt())
+                            outputStream.writeShort(reverseBytesShort(values[5].toShort()).toInt())
+
+                            outputStream.writeShort(reverseBytesShort(values[6].toShort()).toInt())
+                            outputStream.writeShort(reverseBytesShort(values[7].toShort()).toInt())
+                        }
+                    }
+                }
+            }
+        } finally {
+            // Close the output stream
+            outputStream.close()
+        }
     }
 
+    fun reverseBytesShort(value: Short): Short {
+        return ((value.toInt() and 0xFF) shl 8 or ((value.toInt() and 0xFF00) ushr 8)).toShort()
+    }
     // END
 }

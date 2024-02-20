@@ -1,7 +1,6 @@
 // FileUtils.kt
 package xyz.corbolabs.parallaxedit
 
-import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.ChoiceBox
 import javafx.scene.control.Label
@@ -134,6 +133,7 @@ fun openSPK(
                     var stars6 = ByteBuffer.wrap(Constants.bufferShort).order(ByteOrder.LITTLE_ENDIAN).getShort()
 
                     // Storing all the parsed bytes into a List
+                    // Reference: Layer#, Star# (in this layer),Layer X, Layer Y, ddsX, ddsY, width, height
                     starsListRaw.add("$i,$j,$stars1,$stars2,$stars3,$stars4,$stars5,$stars6")
 
                     // Call function to populate the main list that lists all the stars
@@ -154,21 +154,6 @@ fun openSPK(
         }
     }
 
-    // When the user changes the option in the select box, change the stars in layer list + call to the refresh function for that
-    layers_choicebox.selectionModel.selectedIndexProperty().addListener() { _, _, newValue ->
-        val selectedItem = newValue.toInt()
-        refreshSelection(selectedItem, starsil_listview, starsListRaw)
-
-        if(selectedItem != null){
-            refreshStarsViewport(background_preview, starsListRaw, image, selectedItem)
-            openPNG(background_preview, debug_label, starsListRaw, selectedItem)
-
-        } else {
-            refreshStarsViewport(background_preview, starsListRaw, image, 0)
-            openPNG(background_preview, debug_label, starsListRaw, 0)
-
-        }
-
-    }
+    ChangeSelectionChoiceBox(layers_choicebox, starsil_listview, background_preview, debug_label)
 
 }
