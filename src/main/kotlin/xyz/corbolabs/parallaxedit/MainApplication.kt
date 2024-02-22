@@ -21,11 +21,6 @@ class MainApplication : Application() {
         val fxmlLoader = FXMLLoader(MainApplication::class.java.getResource("main-screen.fxml"))
         val scene = Scene(fxmlLoader.load(), 820.0, 550.0)
 
-        // lmao css
-        scene.getStylesheets().add(
-            javaClass.getResource("styles.css").toExternalForm()
-        )
-
         // Setting up init variables for scene/window
         stage.title = StringsEN.stageTitleNF
         stage.scene = scene

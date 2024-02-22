@@ -34,7 +34,7 @@
                                     </AnchorPane>
                                   <AnchorPane maxHeight="229.0" minHeight="229.0" minWidth="0.0" prefHeight="229.0" prefWidth="150.0">
                                        <children>
-                                          <ListView fx:id="starsil_listview" layoutY="20.0" maxHeight="199.0" prefHeight="199.0" prefWidth="152.0" />
+                                          <ListView fx:id="starsil_listview" layoutY="20.0" maxHeight="199.0" onContextMenuRequested="#onContextMenuRequested" prefHeight="199.0" prefWidth="152.0" />
                                           <Label layoutX="10.0" layoutY="2.0" maxHeight="30.0" minHeight="15.0" prefHeight="18.0" prefWidth="73.0" text="Stars in Layer:" />
                                        </children>
                                     </AnchorPane>
@@ -54,20 +54,21 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <Button fx:id="close_buton" layoutX="227.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCloseButtonClick" text="Close" />
-      <Button fx:id="save_button" disable="true" layoutX="176.0" layoutY="14.0" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Save" />
-      <Button fx:id="open_button" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#onOpenButtonClick" text="Open SPK" />
+      <Button fx:id="close_buton" layoutX="258.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCloseButtonClick" text="Close" />
+      <Button fx:id="save_button" disable="true" layoutX="207.0" layoutY="14.0" mnemonicParsing="false" onAction="#onSaveButtonClick" text="Save" />
+      <Button fx:id="open_button" layoutX="41.0" layoutY="14.0" mnemonicParsing="false" onAction="#onOpenButtonClick" text="Open SPK" />
       <Button fx:id="sd_button" disable="true" layoutX="687.0" layoutY="14.0" mnemonicParsing="false" text="SD" />
       <Button fx:id="hd_button" disable="true" layoutX="728.0" layoutY="14.0" mnemonicParsing="false" text="HD" />
       <Label layoutX="648.0" layoutY="18.0" text="Type:" />
-      <Button fx:id="open_button_dds" disable="true" layoutX="89.0" layoutY="14.0" mnemonicParsing="false" onAction="#onOpenButtonDDSClick" text="Open JSON" />
+      <Button fx:id="open_button_dds" disable="true" layoutX="120.0" layoutY="14.0" mnemonicParsing="false" onAction="#onOpenButtonDDSClick" text="Open JSON" />
       <Button fx:id="hd2_button" disable="true" layoutX="771.0" layoutY="14.0" mnemonicParsing="false" text="HD2" />
-      <Label fx:id="layerPreviewLabel" layoutX="338.0" layoutY="18.0" text="Layer Preview:" />
-      <Button fx:id="lp_0" disable="true" layoutX="422.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLP0ButtonClick" text="0" />
-      <Button fx:id="lp_1" disable="true" layoutX="449.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLP1ButtonClick" text="1" />
-      <Button fx:id="lp_2" disable="true" layoutX="476.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLP2ButtonClick" text="2" />
-      <Button fx:id="lp_3" disable="true" layoutX="503.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLP3ButtonClick" text="3" />
-      <Button fx:id="lp_4" disable="true" layoutX="530.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLP4ButtonClick" text="4" />
-      <Button fx:id="lp_all" disable="true" layoutX="557.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLPAllButtonClick" text="All" />
+      <Label fx:id="layerPreviewLabel" layoutX="353.0" layoutY="18.0" text="Layer Preview:" />
+      <Button fx:id="lp_0" disable="true" layoutX="437.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLP0ButtonClick" text="0" />
+      <Button fx:id="lp_1" disable="true" layoutX="464.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLP1ButtonClick" text="1" />
+      <Button fx:id="lp_2" disable="true" layoutX="491.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLP2ButtonClick" text="2" />
+      <Button fx:id="lp_3" disable="true" layoutX="518.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLP3ButtonClick" text="3" />
+      <Button fx:id="lp_4" disable="true" layoutX="545.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLP4ButtonClick" text="4" />
+      <Button fx:id="lp_all" disable="true" layoutX="572.0" layoutY="14.0" mnemonicParsing="false" onAction="#onLPAllButtonClick" text="All" />
+      <Button fx:id="help_button" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#onHelpButtonClick" text="?" />
    </children>
 </Pane>

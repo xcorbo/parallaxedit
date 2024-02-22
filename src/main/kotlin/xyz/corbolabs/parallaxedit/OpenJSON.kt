@@ -12,7 +12,6 @@ import java.util.prefs.Preferences
 
 lateinit var jsonObject: JSONObject
 
-
 fun OpenJSON(
     background_preview: AnchorPane,
     debug_label: Label,
@@ -54,9 +53,11 @@ fun OpenJSON(
             val loadedJSON = File(selectedFile.absolutePath).readText()
             jsonObject = JSONObject(loadedJSON)
 
-            // set to layer 0 by default
+            // set to layer 0 by default, this is the first read
             val selectedLayer = 0
             openPNG(background_preview, debug_label, starsListRaw, selectedLayer, starsil_listview)
+
+            // Enable layers buttons from the UI
             lp_0.isDisable = false
             lp_1.isDisable = false
             lp_2.isDisable = false

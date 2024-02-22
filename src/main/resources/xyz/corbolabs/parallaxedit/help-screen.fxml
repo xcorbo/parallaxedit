@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.corbolabs.parallaxedit.HelpController">
+   <children>
+      <Button fx:id="agree_button" layoutX="423.0" layoutY="367.0" mnemonicParsing="false" onAction="#onAgreeButtonClick" text="I Agree" />
+      <Label layoutX="14.0" layoutY="14.0" text="How it works:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="34.0" prefHeight="104.0" prefWidth="274.0" text="SC: Remastered Parallax Editor will help you edit .spk format that contains the information for everything star/parallax related basically the file just contains a list to all star coordinates in x,y, where it should put them and where to take them from the .dds.grp file." textAlignment="JUSTIFY" wrapText="true" />
+      <Line endX="-100.0" endY="208.20001220703125" layoutX="400.0" layoutY="183.0" startX="-100.0" startY="-175.0" stroke="#bfb0b0" />
+      <Label layoutX="14.0" layoutY="148.0" text="What you need:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="164.0" prefHeight="128.0" prefWidth="274.0" text="You need the extracted .spk file you want to edit and you also need all of the .dds.grp frames extracted in separate PNG images. While you can generate the frames anyway you wish, this program relies on the generated .json file by animosity so you might as well just use neiv's animosity to extract this." textAlignment="JUSTIFY" wrapText="true" />
+      <Label layoutX="14.0" layoutY="298.0" text="What you can do:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="318.0" prefHeight="20.0" prefWidth="274.0" text="- View star information" textAlignment="JUSTIFY" wrapText="true" />
+      <Label layoutX="14.0" layoutY="334.0" prefHeight="20.0" prefWidth="274.0" text="- Add/Remove/Edit existing and new stars" textAlignment="JUSTIFY" wrapText="true" />
+      <Label layoutX="14.0" layoutY="348.0" prefHeight="38.0" prefWidth="274.0" text="- Preview individual and all layers (Preview not 100% accurate)" wrapText="true" />
+      <Label layoutX="326.0" layoutY="14.0" text="(X,Y) (Width, Height)" />
+      <Label layoutX="311.0" layoutY="200.0" text="Credits &amp; Notes:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="311.0" layoutY="221.0" prefHeight="17.0" prefWidth="274.0" text="Made by: Corbo" textAlignment="JUSTIFY" wrapText="true" />
+      <Label layoutX="311.0" layoutY="238.0" prefHeight="17.0" prefWidth="274.0" text="Thanks: Farty (Ideas/Original SPKEdit/Format Specs)" textAlignment="JUSTIFY" wrapText="true" />
+      <Label layoutX="354.0" layoutY="255.0" prefHeight="17.0" prefWidth="274.0" text="neiv (Animosity)" textAlignment="JUSTIFY" wrapText="true" />
+      <Label layoutX="354.0" layoutY="270.0" prefHeight="17.0" prefWidth="274.0" text="Everyone at SEN (Being awesome)" textAlignment="JUSTIFY" wrapText="true" />
+      <Label layoutX="310.0" layoutY="314.0" prefHeight="53.0" prefWidth="280.0" text="By clicking &quot;I Agree&quot; you acknowledge that you have read this very basic user guide and that this program is provided to you &quot;as is&quot; and any losses/corruption to your files is not to be blamed on me and also that you will attempt to overthrow capitalism and seize the means of production" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Label>
+      <Label layoutX="486.0" layoutY="14.0" text="(ddsX, ddsY) " />
+      <Label layoutX="316.0" layoutY="167.0" prefHeight="17.0" prefWidth="153.0" text="(position in game Layers)" />
+      <Label layoutX="472.0" layoutY="167.0" text="(dds file positions)" />
+      <ImageView fx:id="imageView_xy" fitHeight="125.0" fitWidth="125.0" layoutX="317.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../xydemo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imageView_dds" fitHeight="125.0" fitWidth="125.0" layoutX="458.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../ddsdemo.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

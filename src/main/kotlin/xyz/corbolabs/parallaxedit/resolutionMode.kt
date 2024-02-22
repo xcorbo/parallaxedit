@@ -4,11 +4,11 @@ import javafx.scene.control.Button
 
 class ResolutionMode {
 
-    private lateinit var save_button: Button
-    private lateinit var open_button_dds: Button
-    private lateinit var sd_button: Button
-    private lateinit var hd_button: Button
-    private lateinit var hd2_button: Button
+    private var save_button: Button
+    private var open_button_dds: Button
+    private var sd_button: Button
+    private var hd_button: Button
+    private var hd2_button: Button
 
     constructor(
         save_button: Button,
@@ -24,7 +24,8 @@ class ResolutionMode {
         this.hd2_button = hd2_button
     }
 
-    public fun parse(height: Int) {
+     fun parse(height: Int) {
+
         // Enable rest of the UI and determine SD, HD or HD2
         save_button.isDisable = false
         open_button_dds.isDisable = false

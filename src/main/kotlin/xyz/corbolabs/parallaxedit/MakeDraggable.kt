@@ -7,6 +7,8 @@ fun MakeDraggable(stackPane: StackPane, layer: String, star: String, starsil_lis
     var dragDeltaX = 0.0
     var dragDeltaY = 0.0
 
+    // TODO Rewrite all this so that you cannot drag out of the background_preview anchorpane
+
     stackPane.setOnMousePressed { event ->
         // Record the position of the mouse relative to the StackPane
         dragDeltaX = stackPane.layoutX - event.sceneX

@@ -2,17 +2,21 @@ package xyz.corbolabs.parallaxedit
 
 import javafx.application.Platform
 import javafx.fxml.FXML
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
+import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.control.ChoiceBox
 import javafx.scene.control.Label
 import javafx.scene.control.ListView
+import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
+import javafx.stage.Modality
+import javafx.stage.Stage
 import java.io.DataOutputStream
 import java.io.FileOutputStream
-import java.nio.ByteBuffer
 import java.util.prefs.Preferences
-import kotlin.math.absoluteValue
 
 class MainController {
 
@@ -70,6 +74,9 @@ class MainController {
 
     @FXML
     lateinit var lp_all: Button
+
+    @FXML
+    lateinit var help_button: Button
 
     // Settings Variables
     private lateinit var resolutionMode: ResolutionMode
@@ -177,78 +184,121 @@ class MainController {
         val distinctLayers = mutableSetOf<Int>()
         val layerItemCounts = mutableMapOf<Int, Int>()
 
-        // Iterate over the items and extract layer information
-        starsListRaw.forEach { item ->
-            val layer = item.split(",")[0].toInt()
+        if (starsListRaw.isNotEmpty()) {
 
-            // Let's get the number of layers...
-            val layerItemCount = layerItemCounts.getOrDefault(layer, 0) + 1
-            layerItemCounts[layer] = layerItemCount
-            distinctLayers.add(layer)
-        }
+            // Iterate over the items and extract layer information
+            starsListRaw.forEach { item ->
+                val layer = item.split(",")[0].toInt()
 
-        // Can we save? Can we pls?
-        val outputStream = DataOutputStream(FileOutputStream("C:\\Users\\Corbo\\Desktop\\star2.spk"))
-
-        try {
-
-            // First byte, layer number
-            outputStream.writeInt(Integer.reverseBytes(distinctLayers.size))
-
-            // Second byte, offset to first image (hardcoded to 48 for now which is the ammount if the spk has 5 layers
-            outputStream.writeInt(Integer.reverseBytes(48))
-
-            // Loop to get the header done, Images in layer, Layer width, Layer Height... for all layers
-            for (i in 0..distinctLayers.size - 1) {
-
-                layerItemCounts[i]?.let { Integer.reverseBytes(it) }?.let { outputStream.writeInt(it) }
-
-                if (!sd_button.isDisable) {
-                    val width = 648
-                    val height = 488
-                    outputStream.writeShort(reverseBytesShort(width.toShort()).toInt())
-                    outputStream.writeShort(reverseBytesShort(height.toShort()).toInt())
-                }
-                if (!hd_button.isDisable) {
-                    val width = 648 * 2
-                    val height = 488 * 2
-                    outputStream.writeShort(reverseBytesShort(width.toShort()).toInt())
-                    outputStream.writeShort(reverseBytesShort(height.toShort()).toInt())
-                }
-                if (!hd2_button.isDisable) {
-                    val width = 648 * 4
-                    val height = 488 * 4
-                    outputStream.writeShort(reverseBytesShort(width.toShort()).toInt())
-                    outputStream.writeShort(reverseBytesShort(height.toShort()).toInt())
-                }
+                // Let's get the number of layers...
+                val layerItemCount = layerItemCounts.getOrDefault(layer, 0) + 1
+                layerItemCounts[layer] = layerItemCount
+                distinctLayers.add(layer)
             }
 
-            // The one loop to merge them all, one loop to find them and in the darkness bind them
-            for (i in 0..distinctLayers.size - 1) {
-                for (j in 0..layerItemCounts.getOrDefault(i, 0)) {
-                    starsListRaw.forEach() { item ->
-                        val values = item.split(",")
-                        if (values[0].toInt() == i && values[1].toInt() == j) {
-                            outputStream.writeShort(reverseBytesShort(values[2].toShort()).toInt())
-                            outputStream.writeShort(reverseBytesShort(values[3].toShort()).toInt())
+            // Can we save? Can we pls?
+            val outputStream = DataOutputStream(FileOutputStream("C:\\Users\\Corbo\\Desktop\\star2.spk"))
 
-                            outputStream.writeShort(reverseBytesShort(values[4].toShort()).toInt())
-                            outputStream.writeShort(reverseBytesShort(values[5].toShort()).toInt())
+            try {
 
-                            outputStream.writeShort(reverseBytesShort(values[6].toShort()).toInt())
-                            outputStream.writeShort(reverseBytesShort(values[7].toShort()).toInt())
+                // First byte, layer number
+                outputStream.writeInt(Integer.reverseBytes(distinctLayers.size))
+
+                // Second byte, offset to first image (hardcoded to 48 for now which is the ammount if the spk has 5 layers
+                outputStream.writeInt(Integer.reverseBytes(48))
+
+                // Loop to get the header done, Images in layer, Layer width, Layer Height... for all layers
+                for (i in 0..distinctLayers.size - 1) {
+
+                    layerItemCounts[i]?.let { Integer.reverseBytes(it) }?.let { outputStream.writeInt(it) }
+
+                    if (!sd_button.isDisable) {
+                        val width = 648
+                        val height = 488
+                        outputStream.writeShort(reverseBytesShort(width.toShort()).toInt())
+                        outputStream.writeShort(reverseBytesShort(height.toShort()).toInt())
+                    }
+                    if (!hd_button.isDisable) {
+                        val width = 648 * 2
+                        val height = 488 * 2
+                        outputStream.writeShort(reverseBytesShort(width.toShort()).toInt())
+                        outputStream.writeShort(reverseBytesShort(height.toShort()).toInt())
+                    }
+                    if (!hd2_button.isDisable) {
+                        val width = 648 * 4
+                        val height = 488 * 4
+                        outputStream.writeShort(reverseBytesShort(width.toShort()).toInt())
+                        outputStream.writeShort(reverseBytesShort(height.toShort()).toInt())
+                    }
+                }
+
+                // The one loop to merge them all, one loop to find them and in the darkness bind them
+                for (i in 0..distinctLayers.size - 1) {
+                    for (j in 0..layerItemCounts.getOrDefault(i, 0)) {
+                        starsListRaw.forEach() { item ->
+                            val values = item.split(",")
+                            if (values[0].toInt() == i && values[1].toInt() == j) {
+                                outputStream.writeShort(reverseBytesShort(values[2].toShort()).toInt())
+                                outputStream.writeShort(reverseBytesShort(values[3].toShort()).toInt())
+
+                                outputStream.writeShort(reverseBytesShort(values[4].toShort()).toInt())
+                                outputStream.writeShort(reverseBytesShort(values[5].toShort()).toInt())
+
+                                outputStream.writeShort(reverseBytesShort(values[6].toShort()).toInt())
+                                outputStream.writeShort(reverseBytesShort(values[7].toShort()).toInt())
+                            }
                         }
                     }
                 }
+            } finally {
+                // Close the output stream
+                outputStream.close()
             }
-        } finally {
-            // Close the output stream
-            outputStream.close()
         }
     }
 
     fun reverseBytesShort(value: Short): Short {
         return ((value.toInt() and 0xFF) shl 8 or ((value.toInt() and 0xFF00) ushr 8)).toShort()
     }
+
+    @FXML
+    fun onHelpButtonClick(){
+
+        // Find the FXML to load + get its parent
+        val loader = FXMLLoader(javaClass.getResource("help-screen.fxml"))
+        val helpScreenRoot = loader.load<Parent>()
+
+        // Assign it a controller and set its stage
+        val helpScreenController = loader.getController<HelpController>()
+        val helpScreenStage = Stage()
+
+        // Setting title and icons and other settings...
+        helpScreenStage.title = "Help Screen"
+        helpScreenStage.scene = Scene(helpScreenRoot, 600.0, 400.0)
+
+        // Icon
+        val iconPath = "icon.png"
+        val iconStream = javaClass.classLoader.getResourceAsStream(iconPath)
+        if (iconStream != null) {
+            val iconImage = Image(iconStream)
+            helpScreenStage.icons.add(iconImage)
+        } else {
+            System.err.println("Icon resource not found: $iconPath")
+        }
+
+        // Make the help screen a modal dialog so it stays there until you close it and prevent from interaction on mainStage
+        helpScreenStage.initModality(Modality.APPLICATION_MODAL)
+
+        helpScreenController.setHelpScreenStage(helpScreenStage)
+
+        helpScreenStage.showAndWait()
+
+    }
+
+    @FXML
+    fun onContextMenuRequested(){
+        ContextMenuRender(starsil_listview, layers_choicebox, starsListRaw)
+    }
+
     // END
 }

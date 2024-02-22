@@ -6,6 +6,9 @@ fun populateMainList(starsListRaw: MutableList<String>, stars_listview: ListView
 
     stars_listview.items.clear()
 
+    // TODO maybe this isn't even needed anymore, maybe consider using starsil_listview only.
+    // TODO upon further inspection this is using starsListRaw, this just needs to be updated with every change then...
+
     // Add filtered stars to the stars_listview
     for (items in starsListRaw) {
         val parts = items.split(",")
