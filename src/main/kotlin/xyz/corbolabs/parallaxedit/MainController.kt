@@ -262,7 +262,7 @@ class MainController {
     }
 
     @FXML
-    fun onHelpButtonClick(){
+    fun onHelpButtonClick() {
 
         // Find the FXML to load + get its parent
         val loader = FXMLLoader(javaClass.getResource("help-screen.fxml"))
@@ -296,8 +296,10 @@ class MainController {
     }
 
     @FXML
-    fun onContextMenuRequested(){
-        ContextMenuRender(starsil_listview, layers_choicebox, starsListRaw)
+    fun onContextMenuRequested() {
+        if (starsil_listview.items.isNotEmpty()) {
+            ContextMenuRender(starsil_listview, layers_choicebox, starsListRaw)
+        }
     }
 
     // END
